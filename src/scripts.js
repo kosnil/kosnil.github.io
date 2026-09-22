@@ -17,11 +17,25 @@ function activateTab(tabName, options = {}) {
   if (options.updateHash && window.location.hash !== `#${name}`) {
     window.history.pushState(null, "", `#${name}`);
   }
+
+  if (options.scrollIntoView && window.matchMedia("(max-width: 720px)").matches) {
+    requestAnimationFrame(() => {
+      const heading = document.querySelector(`#${name} .section-label`);
+      const header = document.querySelector("body > header");
+      const top = window.scrollY + heading.getBoundingClientRect().top
+        - header.getBoundingClientRect().height - 24;
+      window.scrollTo({
+        top: Math.max(0, top),
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant" : "smooth"
+      });
+    });
+  }
 }
 
 tabButtons.forEach((button, index) => {
   button.addEventListener("click", () => {
-    activateTab(button.dataset.tab, { updateHash: true });
+    activateTab(button.dataset.tab, { updateHash: true, scrollIntoView: true });
   });
   button.addEventListener("keydown", (event) => {
     let nextIndex = null;
@@ -33,14 +47,14 @@ tabButtons.forEach((button, index) => {
     event.preventDefault();
     const nextButton = tabButtons[nextIndex];
     nextButton.focus();
-    activateTab(nextButton.dataset.tab, { updateHash: true });
+    activateTab(nextButton.dataset.tab, { updateHash: true, scrollIntoView: true });
   });
 });
 
 tabLinks.forEach((link) => {
   link.addEventListener("click", (event) => {
     event.preventDefault();
-    activateTab(link.dataset.selectTab, { updateHash: true });
+    activateTab(link.dataset.selectTab, { updateHash: true, scrollIntoView: true });
   });
 });
 
