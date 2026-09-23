@@ -204,8 +204,8 @@ nav button[aria-selected="true"] {
 
 .publication {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 22px;
+  grid-template-columns: minmax(0, 1fr) 124px;
+  gap: 24px;
   align-items: start;
   padding: 19px 0;
   border-bottom: 1px solid var(--line);
@@ -217,7 +217,7 @@ nav button[aria-selected="true"] {
 
 .publication-paper {
   display: grid;
-  grid-template-columns: 44% 56%;
+  grid-template-columns: minmax(0, 44fr) minmax(0, 56fr);
   gap: 26px;
   text-decoration: none;
 }
@@ -229,6 +229,11 @@ nav button[aria-selected="true"] {
 
 .publication-title { font-size: 15px; }
 
+.publication-paper > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .publication-meta {
   color: var(--muted);
   font-size: 13px;
@@ -236,7 +241,8 @@ nav button[aria-selected="true"] {
 
 .publication-actions {
   display: flex;
-  gap: 11px;
+  justify-content: flex-end;
+  gap: 12px;
   white-space: nowrap;
 }
 
@@ -248,7 +254,7 @@ nav button[aria-selected="true"] {
   background: transparent;
   color: var(--muted);
   font: inherit;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.8;
   text-decoration: none;
   cursor: pointer;
@@ -891,6 +897,11 @@ footer {
     grid-template-columns: 1fr;
     gap: 10px;
   }
+
+  .publication-actions { justify-content: flex-start; }
+
+  .publication-actions a,
+  .publication-actions button { min-height: 44px; }
 
   .publication-paper {
     grid-template-columns: 1fr;
