@@ -1,0 +1,45 @@
+<div class="interactive-figure">
+  <div class="figure-heading">
+    <span>Signed supermask training</span>
+    <span>Fixed magnitudes · learned mask</span>
+  </div>
+  <p class="figure-intro">Each layer has one magnitude that is fixed at initialization and shared by all of its connections. Training changes only a ternary mask: <strong>+1</strong> keeps a connection, <strong>−1</strong> reverses its sign, and <strong>0</strong> removes it.</p>
+  <label class="range-label" for="mask-progress">Training progress <output id="mask-progress-output">0% · initialization</output></label>
+  <input id="mask-progress" type="range" min="0" max="100" step="5" value="0" />
+  <div class="figure-metrics supermask-metrics">
+    <span>Retained connections <strong id="mask-active-output">138 candidates</strong></span>
+    <span>Weight updates <strong>0</strong></span>
+  </div>
+
+  <div class="network-shell">
+    <svg id="mask-network" class="mask-network" viewBox="0 0 530 380" role="img" aria-label="Four-layer neural network with 25 nodes and 138 candidate connections whose masks are learned during simulated training"></svg>
+    <div class="mask-legend" aria-label="Learned mask states">
+      <span><i class="plus"></i><strong>+1</strong> keep</span>
+      <span><i class="minus"></i><strong>−1</strong> invert</span>
+      <span><i class="zero"></i><strong>0</strong> remove</span>
+    </div>
+    <div class="mask-connection-detail" id="mask-connection-detail" aria-live="polite"></div>
+  </div>
+
+  <div class="layer-magnitude-section">
+    <div class="plot-title"><span>Layer magnitudes</span><span>fixed throughout training</span></div>
+    <div class="layer-magnitude-grid" aria-label="Fixed connection magnitude for each layer">
+      <div>
+        <span>Input → hidden 1</span>
+        <strong>|w| = 0.18</strong>
+        <small>54 connections</small>
+      </div>
+      <div>
+        <span>Hidden 1 → hidden 2</span>
+        <strong>|w| = 0.12</strong>
+        <small>63 connections</small>
+      </div>
+      <div>
+        <span>Hidden 2 → output</span>
+        <strong>|w| = 0.28</strong>
+        <small>21 connections</small>
+      </div>
+    </div>
+  </div>
+  <p class="figure-note">Illustrative training path. The slider changes a deterministic mask rather than fitting a network from the paper's experiments. Hover over a connection to inspect its layer magnitude and resulting effective weight.</p>
+</div>

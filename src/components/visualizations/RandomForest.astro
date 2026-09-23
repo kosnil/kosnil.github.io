@@ -1,0 +1,51 @@
+<div class="interactive-figure">
+  <div class="figure-heading">
+    <span>Synthetic temperature example</span>
+    <span>Top-k forest support</span>
+  </div>
+  <p class="figure-intro">Each point is a past forecast for the same location and lead time. The forest compares its ensemble mean, spread, and recent forecast bias with the new case. The corresponding observed temperatures form the predictive distribution.</p>
+  <div class="query-grid" aria-label="Covariates of the new forecast case">
+    <div><span>Ensemble mean</span><strong>21.0 °C</strong></div>
+    <div><span>Ensemble spread</span><strong>1.8 °C</strong></div>
+    <div><span>Recent 7-day bias<br />(observed − forecast)</span><strong>+1.1 °C</strong></div>
+  </div>
+  <label class="range-label" for="rf-k">Retained support points <output id="rf-k-output">40 of 320</output></label>
+  <input id="rf-k" type="range" min="5" max="320" step="5" value="40" />
+  <div class="figure-metrics">
+    <span>Retained mass <strong id="rf-mass">—</strong></span>
+    <span>Effective support <strong id="rf-effective">—</strong></span>
+  </div>
+
+  <div class="plot-block">
+    <div class="plot-title"><span>Predictive distribution</span><span>Observed temperature</span></div>
+    <svg id="rf-cdf" class="rf-plot" viewBox="0 0 500 250" role="img" aria-label="Full and simplified weighted empirical cumulative distribution functions"></svg>
+    <div class="plot-legend"><span><i class="full-cdf"></i>full distribution</span><span><i class="sparse-cdf"></i>retained support</span><span><i class="observed-cdf"></i>observation</span></div>
+  </div>
+
+  <div class="support-table-block">
+    <div class="plot-title"><span>Retained support points</span><span id="rf-table-count">40 rows</span></div>
+    <div class="support-table-wrap" tabindex="0" aria-label="Table of retained support points and their covariates">
+      <table class="support-table">
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Weight</th>
+            <th scope="col"><span class="column-kind">Outcome</span>Observed</th>
+            <th scope="col"><span class="column-kind">Covariate</span>Ens. mean</th>
+            <th scope="col"><span class="column-kind">Covariate</span>Spread</th>
+            <th scope="col"><span class="column-kind">Covariate</span>Recent bias</th>
+          </tr>
+        </thead>
+        <tbody id="rf-support-table"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="plot-block">
+    <div class="plot-title"><span>Support in covariate space</span><span>Mean × spread · colour = bias</span></div>
+    <svg id="rf-support" class="rf-plot support-plot" viewBox="0 0 500 240" role="img" aria-label="Historical forecast cases and their similarity to the new case"></svg>
+    <div class="bias-key" aria-label="Recent bias colour scale from minus three to plus three degrees"><span>−3 °C</span><i></i><span>+3 °C</span></div>
+    <div class="support-detail" id="rf-support-detail" aria-live="polite"></div>
+  </div>
+  <p class="figure-note">Stylized synthetic data. Larger points have higher forest-like weights because their three covariates are more similar to the new case. Colour shows recent bias; the vertical line marks the realized observation. Hover over a retained point or table row to inspect it.</p>
+</div>

@@ -1,0 +1,50 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import RandomForest from "./visualizations/RandomForest.astro";
+import Thesis from "./visualizations/Thesis.astro";
+import Forecast from "./visualizations/Forecast.astro";
+import Supermask from "./visualizations/Supermask.astro";
+
+interface Props {
+  papers: CollectionEntry<"papers">[];
+}
+
+const { papers } = Astro.props;
+const renderedPapers = await Promise.all(
+  papers.map(async (paper) => ({
+    paper,
+    Content: (await render(paper)).Content
+  }))
+);
+---
+
+<div class="panel-backdrop" data-close-panel hidden></div>
+<aside class="paper-panel" aria-label="Paper details" aria-hidden="true">
+  <div class="panel-header">
+    <span>Selected work</span>
+    <button class="panel-close" type="button" data-close-panel aria-label="Close paper details">Close</button>
+  </div>
+
+  <div class="panel-scroll">
+    {renderedPapers.map(({ paper, Content }) => (
+      <div class="paper-detail" data-paper-detail={paper.id} hidden>
+        <p class="panel-meta">{paper.data.panelVenue ?? paper.data.venue} · {paper.data.year}</p>
+        <h2>{paper.data.title}</h2>
+        <p class="abstract-label">{paper.data.abstractLabel}</p>
+        <div class="paper-abstract"><Content /></div>
+
+        {paper.data.visualization === "thesis" && <Thesis />}
+
+        <div class="panel-links">
+          {paper.data.links.map((link) => (
+            <a href={link.url} target="_blank" rel="noreferrer">{link.label} ↗</a>
+          ))}
+        </div>
+
+        {paper.data.visualization === "random-forest" && <RandomForest />}
+        {paper.data.visualization === "forecast" && <Forecast />}
+        {paper.data.visualization === "supermask" && <Supermask />}
+      </div>
+    ))}
+  </div>
+</aside>

@@ -1,0 +1,16 @@
+<div class="interactive-figure">
+  <div class="figure-heading">
+    <span>Illustrative quantile forecast</span>
+    <span>Outcome revealed later</span>
+  </div>
+  <div class="forecast-axis" aria-label="Illustrative predictive intervals and outcome">
+    <div class="interval interval-95"></div>
+    <div class="interval interval-50"></div>
+    <div class="median-mark"><span>median</span></div>
+    <div class="outcome-mark" id="forecast-outcome-mark"><span>outcome</span></div>
+  </div>
+  <label class="range-label" for="forecast-outcome">Observed outcome <output id="forecast-outcome-output">62</output></label>
+  <input id="forecast-outcome" type="range" min="0" max="100" value="62" />
+  <p class="forecast-status" id="forecast-status"></p>
+  <p class="figure-note">A probabilistic forecast is submitted before the outcome is known. Its quality depends on both calibration and concentration, not only on whether one interval contains the observation.</p>
+</div>

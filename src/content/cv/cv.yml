@@ -1,0 +1,48 @@
+groups:
+  - heading: Positions
+    entries:
+      - period: Since 2025
+        title: Akademischer Rat
+        detail: Chair of Statistical Methods and Econometrics, Karlsruhe Institute of Technology
+      - period: "2025"
+        title: Postdoctoral researcher
+        detail: Chair of Applied Econometrics, Karlsruhe Institute of Technology
+
+  - heading: Education
+    entries:
+      - period: "2025"
+        title: Doctorate in Statistics
+        detail: Karlsruhe Institute of Technology · summa cum laude
+      - period: "2020"
+        title: M.Sc. Industrial Engineering
+        detail: Karlsruhe Institute of Technology
+      - period: "2017"
+        title: B.Sc. Economics Engineering
+        detail: Karlsruhe Institute of Technology
+
+  - heading: Research visits
+    entries:
+      - period: "2026"
+        title: University of Cambridge
+        detail: Visiting researcher, hosted by Richard Samworth
+      - period: "2023"
+        title: Broad Institute of MIT and Harvard
+        detail: Visiting researcher, hosted by Caroline Uhler · affiliated researcher since 2023
+
+  - heading: Academic service
+    notes:
+      - Reviewer for NeurIPS and the International Journal of Forecasting.
+      - Supervised 11 bachelor's and master's theses.
+      - Co-organized workshops on kernel methods, shape-constrained learning and nonparametric statistics.
+
+  - heading: Selected distinctions
+    entries:
+      - period: "2026"
+        title: Award for Outstanding Dissertation
+        detail: KIT Faculty of Economics and Management
+      - period: "2025"
+        title: Conference Travel Grant
+        detail: German Academic Exchange Service (DAAD)
+      - period: "2023"
+        title: Research Travel Grant
+        detail: Karlsruhe House of Young Scientists
