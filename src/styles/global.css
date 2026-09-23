@@ -204,7 +204,7 @@ nav button[aria-selected="true"] {
 
 .publication {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 124px;
+  grid-template-columns: minmax(0, 1fr) 148px;
   gap: 24px;
   align-items: start;
   padding: 19px 0;
@@ -241,13 +241,17 @@ nav button[aria-selected="true"] {
 
 .publication-actions {
   display: flex;
+  flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 12px;
-  white-space: nowrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  min-width: 0;
 }
 
 .publication-actions a,
 .publication-actions button {
+  max-width: 100%;
+  overflow-wrap: anywhere;
   margin: 0;
   padding: 0;
   border: 0;
@@ -259,6 +263,8 @@ nav button[aria-selected="true"] {
   text-decoration: none;
   cursor: pointer;
 }
+
+.publication-actions button { white-space: nowrap; }
 
 .publication-actions a:hover,
 .publication-actions button:hover,

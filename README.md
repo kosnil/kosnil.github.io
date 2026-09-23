@@ -16,6 +16,18 @@ Open `src/content/cv/cv.yml`, edit the relevant entry, and commit the change. Th
 
 Entries are sorted by `order`. A push to `main` automatically rebuilds and publishes the site.
 
+Add extra resources under `links`, for example:
+
+```yaml
+links:
+  - label: Paper
+    url: https://doi.org/your-paper
+  - label: Platform
+    url: https://energy-arena.org/
+```
+
+These links appear in the publication row and in its **learn more** panel. The row omits the `paperUrl` destination because the title already links to it, and shows each other URL only once. Use labels such as `Code`, `Platform`, or `Data`; row labels appear in lowercase. Existing `codeUrl` entries remain supported as a fallback, so there is no need to edit older papers. Links wrap when space is limited.
+
 ## Local development
 
 ```sh

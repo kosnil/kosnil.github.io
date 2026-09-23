@@ -24,6 +24,19 @@ function paperMeta(paper: (typeof papers)[number]) {
   const authors = paper.data.authors;
   return `${paper.data.venue}, ${paper.data.year}${authors.length ? ` · with ${joinAuthors(authors)}` : ""}`;
 }
+
+function paperLinks(paper: (typeof papers)[number]) {
+  const { links, codeUrl, paperUrl } = paper.data;
+  const candidates = codeUrl ? [...links, { label: "Code", url: codeUrl }] : links;
+  // The title already links to the paper; keep each other destination once.
+  const seen = new Set([new URL(paperUrl).href]);
+  return candidates.filter((link) => {
+    const url = new URL(link.url).href;
+    if (seen.has(url)) return false;
+    seen.add(url);
+    return true;
+  });
+}
 ---
 
 <!doctype html>
@@ -125,7 +138,9 @@ function paperMeta(paper: (typeof papers)[number]) {
                   <span class="publication-meta">{paperMeta(paper)}</span>
                 </a>
                 <div class="publication-actions">
-                  {paper.data.codeUrl && <a href={paper.data.codeUrl} target="_blank" rel="noreferrer">[code]</a>}
+                  {paperLinks(paper).map((link) => (
+                    <a href={link.url} target="_blank" rel="noreferrer">[{link.label.toLowerCase()}]</a>
+                  ))}
                   <button type="button" data-open-paper={paper.id}>[learn more]</button>
                 </div>
               </div>
