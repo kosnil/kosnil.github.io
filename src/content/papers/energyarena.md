@@ -9,9 +9,7 @@ authors:
   - Philipp Eiser
   - Wolf Fichtner
   - Veit Hagenmeyer
-  - Matthias Hertel
-  - Nils Koster
-  - et al.
+  - Matthias Hertel et al.
 paperUrl: https://doi.org/10.1109/EEM68581.2026.11589800
 links:
   - label: Paper
