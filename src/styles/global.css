@@ -846,9 +846,18 @@ footer {
   main,
   footer { width: min(calc(100% - 32px), var(--max-width)); }
 
-  header { min-height: 68px; }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    min-height: 68px;
+    background: var(--background);
+  }
   nav { gap: 13px; }
   nav button { font-size: 12px; }
+
+  /* Leave enough room to scroll even short sections below the sticky menu. */
+  .tab-region { min-height: calc(100svh - 68px); }
 
   .intro {
     min-height: auto;
@@ -875,6 +884,7 @@ footer {
     grid-template-columns: 1fr;
     gap: 42px;
     padding: 64px 0;
+    scroll-margin-top: 68px;
   }
 
   .publication {
