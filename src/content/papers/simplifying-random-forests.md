@@ -1,6 +1,6 @@
 ---
 title: Simplifying Random Forests’ Probabilistic Forecasts
-year: 2025
+year: 2026
 status: published
 venue: The American Statistician
 authors:
