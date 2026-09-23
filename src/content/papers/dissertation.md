@@ -9,10 +9,6 @@ paperUrl: https://publikationen.bibliothek.kit.edu/1000180148
 links:
   - label: Dissertation
     url: https://publikationen.bibliothek.kit.edu/1000180148
-  - label: RF code
-    url: https://github.com/kosnil/simplify_rf_dist
-  - label: Supermask code
-    url: https://github.com/kosnil/signed_supermasks
 visualization: thesis
 abstractLabel: Summary
 order: 2
