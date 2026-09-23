@@ -28,6 +28,12 @@ links:
 
 These links appear in the publication row and in its **learn more** panel. The row omits the `paperUrl` destination because the title already links to it, and shows each other URL only once. Use labels such as `Code`, `Platform`, or `Data`; row labels appear in lowercase. Existing `codeUrl` entries remain supported as a fallback, so there is no need to edit older papers. Links wrap when space is limited.
 
+## Publishing
+
+Keep **Settings → Pages → Build and deployment → Source** set to **GitHub Actions**. The workflow in `.github/workflows/deploy.yml` builds the Astro website and publishes its output after each push to `main`.
+
+Do not select **Deploy from a branch**: the repository root contains source files and the README, not the built website. That setting starts a separate Jekyll deployment which can overwrite the Astro site with the README.
+
 ## Local development
 
 ```sh
