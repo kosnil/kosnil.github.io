@@ -16,7 +16,7 @@ links:
     url: https://doi.org/10.1109/EEM68581.2026.11589800
   - label: Platform
     url: https://energy-arena.org/
-visualization: 
+visualization: none
 order: 1
 ---
 
