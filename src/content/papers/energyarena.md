@@ -1,8 +1,8 @@
 ---
-title: Energy-Arena: A Dynamic Benchmark for Operational Energy Forecasting
+title: "Energy-Arena: A Dynamic Benchmark for Operational Energy Forecasting"
 year: 2026
 status: published
-venue: 22nd International Conference on the European Energy Market (EEM)
+venue: "22nd International Conference on the European Energy Market (EEM)"
 authors:
   - Max Kleinebrahm
   - Jonathan Berrisch
