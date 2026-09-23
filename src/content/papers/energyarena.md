@@ -4,12 +4,7 @@ year: 2026
 status: published
 venue: "22nd International Conference on the European Energy Market (EEM)"
 authors:
-  - Max Kleinebrahm
-  - Jonathan Berrisch
-  - Philipp Eiser
-  - Wolf Fichtner
-  - Veit Hagenmeyer
-  - Matthias Hertel et al.
+  - Max Kleinebrahm et al.
 paperUrl: https://doi.org/10.1109/EEM68581.2026.11589800
 links:
   - label: Paper
