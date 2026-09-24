@@ -1,0 +1,14 @@
+---
+interface Props { text: string }
+const { text } = Astro.props;
+// Render inline Markdown links while keeping all other text escaped by Astro.
+const parts: { text: string; url?: string }[] = [];
+let start = 0;
+for (const match of text.matchAll(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g)) {
+  parts.push({ text: text.slice(start, match.index) });
+  parts.push({ text: match[1], url: match[2] });
+  start = match.index + match[0].length;
+}
+parts.push({ text: text.slice(start) });
+---
+{parts.map((part) => part.url ? <a href={part.url} target="_blank" rel="noreferrer">{part.text}</a> : part.text)}

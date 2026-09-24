@@ -58,6 +58,7 @@ nav {
 }
 
 nav button {
+  white-space: nowrap;
   padding: 0;
   border: 0;
   background: transparent;
@@ -201,6 +202,11 @@ nav button[aria-selected="true"] {
 
 .cv-notes { gap: 9px; }
 .cv-notes p { margin: 0; }
+
+.teaching-content > p { margin: 0 0 28px; line-height: 1.75; }
+.teaching-courses { display: grid; gap: 24px; }
+.teaching-course h3 { margin: 0 0 7px; font-size: 16px; font-weight: 500; }
+.teaching-course p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
 
 .publication {
   display: grid;
@@ -864,8 +870,13 @@ footer {
     z-index: 10;
     min-height: 68px;
     background: var(--background);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    padding-block: 12px;
   }
-  nav { gap: 13px; }
+  nav { gap: 8px 16px; flex-wrap: wrap; width: 100%; }
   nav button { font-size: 12px; }
 
   /* Leave enough room to scroll even short sections below the sticky menu. */

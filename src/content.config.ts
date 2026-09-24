@@ -43,4 +43,17 @@ const cv = defineCollection({
   })
 });
 
-export const collections = { papers, cv };
+const teaching = defineCollection({
+  loader: glob({ pattern: "**/*.{yml,yaml}", base: "./src/content/teaching" }),
+  schema: z.object({
+    intro: z.string(),
+    courses: z.array(z.object({
+      title: z.string(),
+      period: z.string(),
+      role: z.string(),
+      url: z.url()
+    }))
+  })
+});
+
+export const collections = { papers, cv, teaching };

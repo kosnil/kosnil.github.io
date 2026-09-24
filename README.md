@@ -6,7 +6,11 @@ This repository contains the source for [kosnil.github.io](https://kosnil.github
 
 Open `src/content/cv/cv.yml`, edit the relevant entry, and commit the change. The public CV is intentionally shorter than a full application CV.
 
-## Add a paper
+## Edit teaching
+
+Open `src/content/teaching/teaching.yml` to change the introduction or add courses. Each course has a `title`, `period`, `role`, and `url`. List selected past contributions with their semester; do not imply that an old course is currently offered.
+
+## Add a paper or project
 
 1. Duplicate one file in `src/content/papers/`.
 2. Change the fields at the top and paste the abstract below the second `---`.
