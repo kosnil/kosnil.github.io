@@ -15,7 +15,7 @@ links:
   - label: Code and results
     url: https://gitlab.kit.edu/vincent.renner/match_phase_detection
 visualization: none
-order: 2
+order: 3
 ---
 
 Spatio-temporal tracking data has opened new possibilities for detecting complex tactical patterns in football, yet modeling the interactive movements of multiple players remains challenging.
