@@ -6,7 +6,7 @@ import "../styles/global.css";
 
 const papers = (await getCollection("papers"))
   .filter((paper) => !paper.data.draft)
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort((a, b) => b.data.order - a.data.order);
 
 const cvEntries = await getCollection("cv");
 const cv = cvEntries[0];
