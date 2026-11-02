@@ -203,6 +203,20 @@ nav button[aria-selected="true"] {
 .cv-notes { gap: 9px; }
 .cv-notes p { margin: 0; }
 
+.cv-subgroups {
+  display: grid;
+  gap: 26px;
+  min-width: 0;
+}
+
+.cv-subgroup h4 {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+  font-style: italic;
+}
+
 .teaching-content > p { margin: 0 0 28px; line-height: 1.75; }
 .teaching-courses { display: grid; gap: 24px; }
 .teaching-course h3 { margin: 0 0 7px; font-size: 16px; font-weight: 500; }

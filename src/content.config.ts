@@ -38,7 +38,12 @@ const cv = defineCollection({
     groups: z.array(z.object({
       heading: z.string(),
       entries: z.array(cvEntry).optional(),
-      notes: z.array(z.string()).optional()
+      notes: z.array(z.string()).optional(),
+      sections: z.array(z.object({
+        heading: z.string(),
+        entries: z.array(cvEntry).optional(),
+        notes: z.array(z.string()).optional()
+      })).optional()
     }))
   })
 });

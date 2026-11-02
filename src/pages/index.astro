@@ -129,6 +129,33 @@ function paperLinks(paper: (typeof papers)[number]) {
                     {group.notes.map((note) => <p><InlineLinks text={note} /></p>)}
                   </div>
                 )}
+                {group.sections && (
+                  <div class="cv-subgroups">
+                    {group.sections.map((section) => (
+                      <div class="cv-subgroup">
+                        <h4>{section.heading}</h4>
+                        {section.notes && (
+                          <div class="cv-entries cv-notes">
+                            {section.notes.map((note) => <p><InlineLinks text={note} /></p>)}
+                          </div>
+                        )}
+                        {section.entries && (
+                          <div class="cv-entries">
+                            {section.entries.map((entry) => (
+                              <div class="cv-entry">
+                                <span>{entry.period}</span>
+                                <div>
+                                  <strong>{entry.title}</strong>
+                                  <p><InlineLinks text={entry.detail} /></p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ))}
           </div>

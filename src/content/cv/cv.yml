@@ -30,17 +30,18 @@ groups:
         detail: Visiting researcher, hosted by Caroline Uhler · affiliated researcher since 2023
 
   - heading: Academic service
-    notes:
-      - Reviewer for NeurIPS and the International Journal of Forecasting.
-
-  - heading: Workshop organization
-    entries:
-      - period: "2026"
-        title: Shape-constrained learning and nonparametric statistics
-        detail: Co-organizer · with [Richard Samworth](https://www.statslab.cam.ac.uk/~rjs57/)
-      - period: "2023"
-        title: Modern kernel methods
-        detail: Co-organizer · with [Adit Radhakrishnan](https://aditradha.com/)
+    sections:
+      - heading: Reviewing
+        notes:
+          - Reviewer for NeurIPS and the International Journal of Forecasting.
+      - heading: Workshop organization
+        entries:
+          - period: "2026"
+            title: Shape-constrained learning and nonparametric statistics
+            detail: Co-organizer · with [Richard Samworth](https://www.statslab.cam.ac.uk/~rjs57/)
+          - period: "2023"
+            title: Modern kernel methods
+            detail: Co-organizer · with [Adit Radhakrishnan](https://aditradha.com/)
 
   - heading: Selected distinctions
     entries:
