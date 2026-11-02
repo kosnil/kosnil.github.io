@@ -32,7 +32,15 @@ groups:
   - heading: Academic service
     notes:
       - Reviewer for NeurIPS and the International Journal of Forecasting.
-      - Co-organized two workshops on (1) modern kernel methods with [Adit Radhakrishnan](https://aditradha.com/) in 2023, and (2) shape-constrained learning and nonparametric statistics with [Richard Samworth](https://www.statslab.cam.ac.uk/~rjs57/) in 2026.
+
+  - heading: Workshop organization
+    entries:
+      - period: "2026"
+        title: Shape-constrained learning and nonparametric statistics
+        detail: Co-organizer · with [Richard Samworth](https://www.statslab.cam.ac.uk/~rjs57/)
+      - period: "2023"
+        title: Modern kernel methods
+        detail: Co-organizer · with [Adit Radhakrishnan](https://aditradha.com/)
 
   - heading: Selected distinctions
     entries:
