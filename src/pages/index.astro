@@ -1,15 +1,7 @@
 ---
 import { getCollection } from "astro:content";
-import PaperPanel from "../components/PaperPanel.astro";
 import InlineLinks from "../components/InlineLinks.astro";
 import ProfileLayout from "../layouts/ProfileLayout.astro";
-
-const papers = (await getCollection("papers"))
-  .filter((paper) => !paper.data.draft)
-  .sort((a, b) =>
-    b.data.year - a.data.year ||
-    b.data.order - a.data.order
-  );
 
 const cvEntries = await getCollection("cv");
 const cv = cvEntries[0];
@@ -19,30 +11,6 @@ if (!teaching) throw new Error("The teaching content file is missing.");
 
 if (!cv) {
   throw new Error("The public CV content file is missing.");
-}
-
-function joinAuthors(authors: string[]) {
-  if (authors.length === 1) return authors[0];
-  if (authors.length === 2) return `${authors[0]} and ${authors[1]}`;
-  return `${authors.slice(0, -1).join(", ")} and ${authors.at(-1)}`;
-}
-
-function paperMeta(paper: (typeof papers)[number]) {
-  const authors = paper.data.authors;
-  return `${paper.data.venue}, ${paper.data.year}${authors.length ? ` · with ${joinAuthors(authors)}` : ""}`;
-}
-
-function paperLinks(paper: (typeof papers)[number]) {
-  const { links, codeUrl, paperUrl } = paper.data;
-  const candidates = codeUrl ? [...links, { label: "Code", url: codeUrl }] : links;
-  // The title already links to the paper; keep each other destination once.
-  const seen = new Set([new URL(paperUrl).href]);
-  return candidates.filter((link) => {
-    const url = new URL(link.url).href;
-    if (seen.has(url)) return false;
-    seen.add(url);
-    return true;
-  });
 }
 ---
 
@@ -125,28 +93,6 @@ function paperLinks(paper: (typeof papers)[number]) {
       </div>
     </section>
 
-    <section id="work" class="tab-panel" role="tabpanel" aria-labelledby="tab-work" tabindex="0" hidden>
-      <div class="section-label">
-        <h2>Papers &amp; Projects</h2>
-      </div>
-      <div class="section-content publications">
-        {papers.map((paper) => (
-          <div class="publication">
-            <a class="publication-paper" href={paper.data.paperUrl} target="_blank" rel="noreferrer">
-              <span class="publication-title">{paper.data.title}</span>
-              <span class="publication-meta">{paperMeta(paper)}</span>
-            </a>
-            <div class="publication-actions">
-              {paperLinks(paper).map((link) => (
-                <a href={link.url} target="_blank" rel="noreferrer">[{link.label.toLowerCase()}]</a>
-              ))}
-              <button type="button" data-open-paper={paper.id}>[learn more]</button>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-
     <section id="teaching" class="tab-panel" role="tabpanel" aria-labelledby="tab-teaching" tabindex="0" hidden>
       <div class="section-label"><h2>Teaching</h2></div>
       <div class="section-content teaching-content">
@@ -174,7 +120,6 @@ function paperLinks(paper: (typeof papers)[number]) {
   </div>
 
   <Fragment slot="after-footer">
-    <PaperPanel papers={papers} />
-    <script src="../scripts.js"></script>
+    <script src="../profile-tabs.js"></script>
   </Fragment>
 </ProfileLayout>

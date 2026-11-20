@@ -148,6 +148,13 @@ nav .profile-nav-link[aria-current="page"] {
 
 .tab-panel[hidden] { display: none; }
 
+.research-page.research-intro { padding-bottom: 36px; }
+
+.research-page.research-publications {
+  padding-top: 0;
+  scroll-margin-top: 100px;
+}
+
 .section-label h1,
 .section-label h2 {
   margin: 0;
@@ -938,6 +945,8 @@ footer {
     padding: 64px 0;
     scroll-margin-top: 68px;
   }
+
+  .research-page { gap: 18px; }
 
   .publication {
     grid-template-columns: 1fr;
