@@ -156,6 +156,7 @@ nav [role="tab"][aria-selected="true"] {
 }
 
 .research-text p,
+.outside-work p,
 .contact p {
   max-width: 560px;
   margin: 0;
@@ -163,6 +164,34 @@ nav [role="tab"][aria-selected="true"] {
 }
 
 .research-text p + p { margin-top: 20px; }
+
+.outside-work-gallery,
+.outside-work-row {
+  display: grid;
+  gap: 12px;
+}
+
+.outside-work-gallery { margin-top: 24px; }
+
+.outside-work-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+}
+
+.outside-work-row--mixed {
+  grid-template-columns: minmax(0, 9fr) minmax(0, 4fr);
+}
+
+.outside-work-row img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 540px) {
+  .outside-work-row,
+  .outside-work-row--mixed { grid-template-columns: minmax(0, 1fr); }
+}
 
 .cv-group {
   display: grid;
