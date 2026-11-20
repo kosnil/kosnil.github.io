@@ -1,0 +1,67 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  isResearch?: boolean;
+  description?: string;
+}
+
+const {
+  isResearch = false,
+  description = "Dr. Nils Koster works on probabilistic forecasting and statistical machine learning at Karlsruhe Institute of Technology."
+} = Astro.props;
+
+const title = isResearch
+  ? "Research | Nils Koster"
+  : "Nils Koster | Probabilistic Forecasting at KIT";
+const canonical = Astro.site && new URL(isResearch ? "/research/" : "/", Astro.site);
+const sections = [
+  { id: "cv", label: "CV" },
+  { id: "work", label: "Papers & Projects" },
+  { id: "teaching", label: "Teaching" },
+  { id: "contact", label: "Contact" }
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f7f4" />
+    {canonical && <link rel="canonical" href={canonical.href} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <a class="name" href={isResearch ? "/" : "#top"}>Nils Koster</a>
+      <nav aria-label="Profile sections">
+        <a class="profile-nav-link" href="/research/" aria-current={isResearch ? "page" : undefined}>Research</a>
+        {isResearch ? (
+          sections.map(({ id, label }) => <a class="profile-nav-link" href={`/#${id}`}>{label}</a>)
+        ) : (
+          <div class="profile-tabs" role="tablist" aria-label="More profile sections">
+            {sections.map(({ id, label }, index) => (
+              <button id={`tab-${id}`} type="button" role="tab" aria-selected="false" aria-controls={id} data-tab={id} tabindex={index === 0 ? 0 : -1}>
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
+      </nav>
+    </header>
+
+    <main id="top">
+      <slot />
+    </main>
+
+    <footer>
+      <span>Dr. Nils Koster</span>
+      <span>Karlsruhe, Germany</span>
+    </footer>
+
+    <slot name="after-footer" />
+  </body>
+</html>

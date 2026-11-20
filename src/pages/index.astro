@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import PaperPanel from "../components/PaperPanel.astro";
 import InlineLinks from "../components/InlineLinks.astro";
-import "../styles/global.css";
+import ProfileLayout from "../layouts/ProfileLayout.astro";
 
 const papers = (await getCollection("papers"))
   .filter((paper) => !paper.data.draft)
@@ -46,176 +46,135 @@ function paperLinks(paper: (typeof papers)[number]) {
 }
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Dr. Nils Koster works on probabilistic forecasting and statistical learning at Karlsruhe Institute of Technology." />
-    <meta name="theme-color" content="#f7f7f4" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Nils Koster</title>
-  </head>
-  <body>
-    <header>
-      <a class="name" href="#top">Nils Koster</a>
-      <nav aria-label="Profile sections" role="tablist">
-        <button id="tab-research" type="button" role="tab" aria-selected="true" aria-controls="research" data-tab="research">Research</button>
-        <button id="tab-cv" type="button" role="tab" aria-selected="false" aria-controls="cv" data-tab="cv" tabindex="-1">CV</button>
-        <button id="tab-work" type="button" role="tab" aria-selected="false" aria-controls="work" data-tab="work" tabindex="-1">Papers &amp; Projects</button>
-        <button id="tab-teaching" type="button" role="tab" aria-selected="false" aria-controls="teaching" data-tab="teaching" tabindex="-1">Teaching</button>
-        <button id="tab-contact" type="button" role="tab" aria-selected="false" aria-controls="contact" data-tab="contact" tabindex="-1">Contact</button>
-      </nav>
-    </header>
+<ProfileLayout>
+  <section class="intro" aria-label="About Nils Koster">
+    <p class="kicker">APPLIED STATISTICS · MACHINE LEARNING · PROBABILISTIC FORECASTING</p>
+    <div class="intro-lower">
+      <img class="portrait" src="/assets/nils-koster.webp" alt="Portrait of Nils Koster" width="720" height="900" />
+      <div class="intro-details">
+        <p>
+          I am an Akademischer Rat at the Karlsruhe Institute of Technology. My research sits between statistics and machine learning, with an emphasis on probabilistic forecasts that remain useful and understandable when data are limited or conditions change.
+        </p>
+        <p class="links">
+          <a href="mailto:nils.koster@kit.edu">Email</a>
+          <a href="https://scholar.google.com/citations?user=OgmrRGIAAAAJ&amp;hl=de&amp;oi=sra" target="_blank" rel="noreferrer">Scholar</a>
+          <a href="https://methods.stat.kit.edu/mitarbeiter_3248.php" target="_blank" rel="noreferrer">KIT</a>
+          <a href="https://orcid.org/0009-0009-7189-0358" target="_blank" rel="noreferrer">ORCID</a>
+          <a href="https://github.com/kosnil" target="_blank" rel="noreferrer">GitHub</a>
+        </p>
+      </div>
+    </div>
+  </section>
 
-    <main id="top">
-      <section class="intro" aria-label="About Nils Koster">
-        <p class="kicker">APPLIED STATISTICS · MACHINE LEARNING · PROBABILISTIC FORECASTING</p>
-        <div class="intro-lower">
-          <img class="portrait" src="/assets/nils-koster.webp" alt="Portrait of Nils Koster" width="720" height="900" />
-          <div class="intro-details">
-            <p>
-              I am an Akademischer Rat at the Karlsruhe Institute of Technology. My research sits between statistics and machine learning, with an emphasis on probabilistic forecasts that remain useful and understandable when data are limited or conditions change.
-            </p>
-            <p class="links">
-              <a href="mailto:nils.koster@kit.edu">Email</a>
-              <a href="https://scholar.google.com/citations?user=OgmrRGIAAAAJ&amp;hl=de&amp;oi=sra" target="_blank" rel="noreferrer">Scholar</a>
-              <a href="https://methods.stat.kit.edu/mitarbeiter_3248.php" target="_blank" rel="noreferrer">KIT</a>
-              <a href="https://orcid.org/0009-0009-7189-0358" target="_blank" rel="noreferrer">ORCID</a>
-              <a href="https://github.com/kosnil" target="_blank" rel="noreferrer">GitHub</a>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <div class="tab-region">
-        <section id="research" class="tab-panel" role="tabpanel" aria-labelledby="tab-research" tabindex="0">
-          <div class="section-label">
-            <h2>Research</h2>
-          </div>
-          <div class="section-content research-text">
-            <p>
-              I work on problems in applied statistics and machine learning, mainly related to probabilistic forecasting. I am interested in how forecast distributions are estimated and evaluated, and in how training methods and the observations used by a model affect its predictions.
-            </p>
-            <p>
-              My recent work has focused on probabilistic predictions from random forests, proper scoring rules, and forecasting applications in weather and energy.
-            </p>
-          </div>
-        </section>
-
-        <section id="cv" class="tab-panel" role="tabpanel" aria-labelledby="tab-cv" tabindex="0" hidden>
-          <div class="section-label">
-            <h2>CV</h2>
-          </div>
-          <div class="section-content cv-content">
-            {cv.data.groups.map((group) => (
-              <div class="cv-group">
-                <h3>{group.heading}</h3>
-                {group.entries && (
-                  <div class="cv-entries">
-                    {group.entries.map((entry) => (
-                      <div class="cv-entry">
-                        <span>{entry.period}</span>
-                        <div>
-                          <strong>{entry.title}</strong>
-                          <p><InlineLinks text={entry.detail} /></p>
-                        </div>
-                      </div>
-                    ))}
+  <div class="tab-region" hidden>
+    <section id="cv" class="tab-panel" role="tabpanel" aria-labelledby="tab-cv" tabindex="0" hidden>
+      <div class="section-label">
+        <h2>CV</h2>
+      </div>
+      <div class="section-content cv-content">
+        {cv.data.groups.map((group) => (
+          <div class="cv-group">
+            <h3>{group.heading}</h3>
+            {group.entries && (
+              <div class="cv-entries">
+                {group.entries.map((entry) => (
+                  <div class="cv-entry">
+                    <span>{entry.period}</span>
+                    <div>
+                      <strong>{entry.title}</strong>
+                      <p><InlineLinks text={entry.detail} /></p>
+                    </div>
                   </div>
-                )}
-                {group.notes && (
-                  <div class="cv-entries cv-notes">
-                    {group.notes.map((note) => <p><InlineLinks text={note} /></p>)}
-                  </div>
-                )}
-                {group.sections && (
-                  <div class="cv-subgroups">
-                    {group.sections.map((section) => (
-                      <div class="cv-subgroup">
-                        <h4>{section.heading}</h4>
-                        {section.notes && (
-                          <div class="cv-entries cv-notes">
-                            {section.notes.map((note) => <p><InlineLinks text={note} /></p>)}
-                          </div>
-                        )}
-                        {section.entries && (
-                          <div class="cv-entries">
-                            {section.entries.map((entry) => (
-                              <div class="cv-entry">
-                                <span>{entry.period}</span>
-                                <div>
-                                  <strong>{entry.title}</strong>
-                                  <p><InlineLinks text={entry.detail} /></p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="work" class="tab-panel" role="tabpanel" aria-labelledby="tab-work" tabindex="0" hidden>
-          <div class="section-label">
-            <h2>Papers &amp; Projects</h2>
-          </div>
-          <div class="section-content publications">
-            {papers.map((paper) => (
-              <div class="publication">
-                <a class="publication-paper" href={paper.data.paperUrl} target="_blank" rel="noreferrer">
-                  <span class="publication-title">{paper.data.title}</span>
-                  <span class="publication-meta">{paperMeta(paper)}</span>
-                </a>
-                <div class="publication-actions">
-                  {paperLinks(paper).map((link) => (
-                    <a href={link.url} target="_blank" rel="noreferrer">[{link.label.toLowerCase()}]</a>
-                  ))}
-                  <button type="button" data-open-paper={paper.id}>[learn more]</button>
-                </div>
+            )}
+            {group.notes && (
+              <div class="cv-entries cv-notes">
+                {group.notes.map((note) => <p><InlineLinks text={note} /></p>)}
               </div>
-            ))}
+            )}
+            {group.sections && (
+              <div class="cv-subgroups">
+                {group.sections.map((section) => (
+                  <div class="cv-subgroup">
+                    <h4>{section.heading}</h4>
+                    {section.notes && (
+                      <div class="cv-entries cv-notes">
+                        {section.notes.map((note) => <p><InlineLinks text={note} /></p>)}
+                      </div>
+                    )}
+                    {section.entries && (
+                      <div class="cv-entries">
+                        {section.entries.map((entry) => (
+                          <div class="cv-entry">
+                            <span>{entry.period}</span>
+                            <div>
+                              <strong>{entry.title}</strong>
+                              <p><InlineLinks text={entry.detail} /></p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
-        </section>
+        ))}
+      </div>
+    </section>
 
-        <section id="teaching" class="tab-panel" role="tabpanel" aria-labelledby="tab-teaching" tabindex="0" hidden>
-          <div class="section-label"><h2>Teaching</h2></div>
-          <div class="section-content teaching-content">
-            <p>{teaching.data.intro}</p>
-            <div class="teaching-courses">
-              {teaching.data.courses.map((course) => (
-                <div class="teaching-course">
-                  <h3><a href={course.url} target="_blank" rel="noreferrer">{course.title}</a></h3>
-                  <p>{course.period} · {course.role}</p>
-                </div>
+    <section id="work" class="tab-panel" role="tabpanel" aria-labelledby="tab-work" tabindex="0" hidden>
+      <div class="section-label">
+        <h2>Papers &amp; Projects</h2>
+      </div>
+      <div class="section-content publications">
+        {papers.map((paper) => (
+          <div class="publication">
+            <a class="publication-paper" href={paper.data.paperUrl} target="_blank" rel="noreferrer">
+              <span class="publication-title">{paper.data.title}</span>
+              <span class="publication-meta">{paperMeta(paper)}</span>
+            </a>
+            <div class="publication-actions">
+              {paperLinks(paper).map((link) => (
+                <a href={link.url} target="_blank" rel="noreferrer">[{link.label.toLowerCase()}]</a>
               ))}
+              <button type="button" data-open-paper={paper.id}>[learn more]</button>
             </div>
           </div>
-        </section>
-
-        <section id="contact" class="tab-panel contact" role="tabpanel" aria-labelledby="tab-contact" tabindex="0" hidden>
-          <div class="section-label">
-            <h2>Contact</h2>
-          </div>
-          <div class="section-content">
-            <p>I'm always interested in thoughtful conversations.</p>
-            <a class="email" href="mailto:nils.koster@kit.edu">nils.koster@kit.edu</a>
-          </div>
-        </section>
+        ))}
       </div>
-    </main>
+    </section>
 
-    <footer>
-      <span>Dr. Nils Koster</span>
-      <span>Karlsruhe, Germany</span>
-    </footer>
+    <section id="teaching" class="tab-panel" role="tabpanel" aria-labelledby="tab-teaching" tabindex="0" hidden>
+      <div class="section-label"><h2>Teaching</h2></div>
+      <div class="section-content teaching-content">
+        <p>{teaching.data.intro}</p>
+        <div class="teaching-courses">
+          {teaching.data.courses.map((course) => (
+            <div class="teaching-course">
+              <h3><a href={course.url} target="_blank" rel="noreferrer">{course.title}</a></h3>
+              <p>{course.period} · {course.role}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
 
+    <section id="contact" class="tab-panel contact" role="tabpanel" aria-labelledby="tab-contact" tabindex="0" hidden>
+      <div class="section-label">
+        <h2>Contact</h2>
+      </div>
+      <div class="section-content">
+        <p>I'm always interested in thoughtful conversations.</p>
+        <a class="email" href="mailto:nils.koster@kit.edu">nils.koster@kit.edu</a>
+      </div>
+    </section>
+  </div>
+
+  <Fragment slot="after-footer">
     <PaperPanel papers={papers} />
     <script src="../scripts.js"></script>
-  </body>
-</html>
+  </Fragment>
+</ProfileLayout>

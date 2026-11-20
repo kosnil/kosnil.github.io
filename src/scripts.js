@@ -1,24 +1,26 @@
+const tabRegion = document.querySelector(".tab-region");
 const tabButtons = [...document.querySelectorAll("[data-tab]")];
 const tabPanels = [...document.querySelectorAll("[role='tabpanel']")];
 const tabLinks = [...document.querySelectorAll("[data-select-tab]")];
 const tabNames = new Set(tabButtons.map((button) => button.dataset.tab));
 
 function activateTab(tabName, options = {}) {
-  const name = tabNames.has(tabName) ? tabName : "research";
-  tabButtons.forEach((button) => {
+  const name = tabNames.has(tabName) ? tabName : null;
+  tabRegion.hidden = name === null;
+  tabButtons.forEach((button, index) => {
     const isActive = button.dataset.tab === name;
     button.setAttribute("aria-selected", String(isActive));
-    button.tabIndex = isActive ? 0 : -1;
+    button.tabIndex = (isActive || (name === null && index === 0)) ? 0 : -1;
   });
   tabPanels.forEach((tabPanel) => {
     tabPanel.hidden = tabPanel.id !== name;
   });
 
-  if (options.updateHash && window.location.hash !== `#${name}`) {
+  if (name && options.updateHash && window.location.hash !== `#${name}`) {
     window.history.pushState(null, "", `#${name}`);
   }
 
-  if (options.scrollIntoView && window.matchMedia("(max-width: 720px)").matches) {
+  if (name && options.scrollIntoView && window.matchMedia("(max-width: 720px)").matches) {
     requestAnimationFrame(() => {
       const heading = document.querySelector(`#${name} .section-label`);
       const header = document.querySelector("body > header");
@@ -58,11 +60,17 @@ tabLinks.forEach((link) => {
   });
 });
 
-window.addEventListener("popstate", () => {
-  activateTab(window.location.hash.slice(1));
-});
+function activateFromHash() {
+  const hash = window.location.hash;
+  if (hash === "#research") {
+    window.location.replace("/research/");
+    return;
+  }
+  activateTab(hash.slice(1));
+}
 
-activateTab(window.location.hash.slice(1));
+window.addEventListener("popstate", activateFromHash);
+activateFromHash();
 
 const panel = document.querySelector(".paper-panel");
 const backdrop = document.querySelector(".panel-backdrop");
