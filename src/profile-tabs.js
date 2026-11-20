@@ -1,78 +1,94 @@
 const tabRegion = document.querySelector(".tab-region");
-const tabButtons = [...document.querySelectorAll("[data-tab]")];
-const tabPanels = [...document.querySelectorAll("[role='tabpanel']")];
-const tabLinks = [...document.querySelectorAll("[data-select-tab]")];
-const tabNames = new Set(tabButtons.map((button) => button.dataset.tab));
+const tabs = [...document.querySelectorAll("[data-tab]")];
+const panels = [...tabRegion.querySelectorAll("[role='tabpanel']")];
+const tabNames = new Set(tabs.map((tab) => tab.dataset.tab));
+const researchPath = document.querySelector("#tab-research").pathname;
+const scroller = document.scrollingElement;
+const scrollFloor = "--tab-scroll-floor";
+let activeTab = null;
 
-function activateTab(tabName, options = {}) {
-  const name = tabNames.has(tabName) ? tabName : null;
-  tabRegion.hidden = name === null;
-  tabButtons.forEach((button, index) => {
-    const isActive = button.dataset.tab === name;
-    button.setAttribute("aria-selected", String(isActive));
-    button.tabIndex = (isActive || (name === null && index === 0)) ? 0 : -1;
+function showTab(name) {
+  activeTab = tabNames.has(name) ? name : null;
+  tabRegion.hidden = activeTab === null;
+  tabs.forEach((tab, index) => {
+    const isActive = tab.dataset.tab === activeTab;
+    tab.setAttribute("aria-selected", String(isActive));
+    tab.tabIndex = (isActive || (activeTab === null && index === 0)) ? 0 : -1;
   });
-  tabPanels.forEach((tabPanel) => {
-    tabPanel.hidden = tabPanel.id !== name;
+  panels.forEach((panel) => {
+    panel.hidden = panel.id !== activeTab;
   });
+  document.title = activeTab === "research"
+    ? document.body.dataset.researchTitle
+    : document.body.dataset.homeTitle;
+}
 
-  if (name && options.updateHash && window.location.hash !== `#${name}`) {
-    window.history.pushState(null, "", `#${name}`);
-  }
+function minHeightToKeepScroll() {
+  const { scrollTop, clientHeight, scrollHeight } = scroller;
+  if (scrollTop <= 0) return 0;
+  // Keep enough space below the current viewport when the new panel is shorter.
+  return Math.max(0, Math.ceil(tabRegion.offsetHeight + scrollTop + clientHeight - scrollHeight));
+}
 
-  if (name && options.scrollIntoView && window.matchMedia("(max-width: 720px)").matches) {
-    requestAnimationFrame(() => {
-      const heading = document.querySelector(`#${name} .section-label`);
-      const header = document.querySelector("body > header");
-      const top = window.scrollY + heading.getBoundingClientRect().top
-        - header.getBoundingClientRect().height - 24;
-      window.scrollTo({
-        top: Math.max(0, top),
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "instant" : "smooth"
-      });
-    });
+function releaseScrollFloor() {
+  if (!tabRegion.style.getPropertyValue(scrollFloor)) return;
+  const panel = panels.find((item) => item.id === activeTab);
+  if (minHeightToKeepScroll() <= (panel?.offsetHeight ?? 0)) {
+    tabRegion.style.removeProperty(scrollFloor);
   }
 }
 
-tabButtons.forEach((button, index) => {
-  button.addEventListener("click", () => {
-    activateTab(button.dataset.tab, { updateHash: true, scrollIntoView: true });
-  });
-  button.addEventListener("keydown", (event) => {
-    let nextIndex = null;
-    if (event.key === "ArrowRight") nextIndex = (index + 1) % tabButtons.length;
-    if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabButtons.length) % tabButtons.length;
-    if (event.key === "Home") nextIndex = 0;
-    if (event.key === "End") nextIndex = tabButtons.length - 1;
-    if (nextIndex === null) return;
-    event.preventDefault();
-    const nextButton = tabButtons[nextIndex];
-    nextButton.focus();
-    activateTab(nextButton.dataset.tab, { updateHash: true, scrollIntoView: true });
-  });
-});
-
-tabLinks.forEach((link) => {
-  link.addEventListener("click", (event) => {
-    event.preventDefault();
-    activateTab(link.dataset.selectTab, { updateHash: true, scrollIntoView: true });
-  });
-});
-
-function activateFromHash() {
-  const hash = window.location.hash;
-  // Keep links to the old homepage research and publication tabs working.
-  if (hash === "#work") {
-    window.location.replace("/research/#work");
-    return;
-  }
-  if (hash === "#research") {
-    window.location.replace("/research/");
-    return;
-  }
-  activateTab(hash.slice(1));
+function selectTab(tab) {
+  if (tab.dataset.tab === activeTab) return;
+  const height = minHeightToKeepScroll();
+  if (height) tabRegion.style.setProperty(scrollFloor, `${height}px`);
+  showTab(tab.dataset.tab);
+  // Updating history this way does not follow the link or scroll to its fragment.
+  window.history.pushState(null, "", tab.getAttribute("href"));
+  releaseScrollFloor();
 }
 
-window.addEventListener("popstate", activateFromHash);
-activateFromHash();
+tabs.forEach((tab, index) => {
+  tab.addEventListener("click", (event) => {
+    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    selectTab(tab);
+  });
+  tab.addEventListener("keydown", (event) => {
+    let nextIndex;
+    if (event.key === " ") nextIndex = index;
+    else if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+    else if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+    else if (event.key === "Home") nextIndex = 0;
+    else if (event.key === "End") nextIndex = tabs.length - 1;
+    else return;
+    event.preventDefault();
+    const nextTab = tabs[nextIndex];
+    selectTab(nextTab);
+    nextTab.focus({ preventScroll: true });
+  });
+});
+
+function showTabFromLocation() {
+  const { pathname, hash } = window.location;
+  let name = hash.slice(1);
+  if (pathname === researchPath || `${pathname}/` === researchPath) {
+    name = "research";
+  } else if (hash === "#work") {
+    // This old direct link still goes straight to the publications.
+    window.location.replace(`${researchPath}#work`);
+    return;
+  } else if (hash === "#research") {
+    window.history.replaceState(null, "", researchPath);
+  }
+  if (name !== activeTab) {
+    tabRegion.style.removeProperty(scrollFloor);
+    showTab(name);
+  }
+}
+
+window.addEventListener("scroll", releaseScrollFloor, { passive: true });
+window.addEventListener("resize", releaseScrollFloor);
+window.addEventListener("popstate", showTabFromLocation);
+window.addEventListener("hashchange", showTabFromLocation);
+showTabFromLocation();

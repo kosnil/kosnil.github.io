@@ -3,22 +3,21 @@ import "../styles/global.css";
 
 interface Props {
   isResearch?: boolean;
-  description?: string;
 }
 
-const {
-  isResearch = false,
-  description = "Dr. Nils Koster works on probabilistic forecasting and statistical machine learning at Karlsruhe Institute of Technology."
-} = Astro.props;
-
-const title = isResearch
-  ? "Research | Nils Koster"
-  : "Nils Koster | Probabilistic Forecasting at KIT";
-const canonical = Astro.site && new URL(isResearch ? "/research/" : "/", Astro.site);
+const { isResearch = false } = Astro.props;
+const homeTitle = "Nils Koster | Probabilistic Forecasting at KIT";
+const researchTitle = "Research | Nils Koster";
+const description = isResearch
+  ? "Nils Koster’s research in probabilistic forecasting and statistical machine learning at KIT, with applications in weather and energy forecasting as well as metabolomics."
+  : "Dr. Nils Koster works on probabilistic forecasting and statistical machine learning at Karlsruhe Institute of Technology.";
+const researchPath = "/research/";
+const canonical = Astro.site && new URL(isResearch ? researchPath : "/", Astro.site);
 const sections = [
-  { id: "cv", label: "CV" },
-  { id: "teaching", label: "Teaching" },
-  { id: "contact", label: "Contact" }
+  { id: "research", label: "Research", href: researchPath },
+  { id: "cv", label: "CV", href: "/#cv" },
+  { id: "teaching", label: "Teaching", href: "/#teaching" },
+  { id: "contact", label: "Contact", href: "/#contact" }
 ];
 ---
 
@@ -31,24 +30,19 @@ const sections = [
     <meta name="theme-color" content="#f7f7f4" />
     {canonical && <link rel="canonical" href={canonical.href} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <title>{isResearch ? researchTitle : homeTitle}</title>
   </head>
-  <body>
+  <body data-home-title={homeTitle} data-research-title={researchTitle}>
     <header>
-      <a class="name" href={isResearch ? "/" : "#top"}>Nils Koster</a>
+      <a class="name" href="/">Nils Koster</a>
       <nav aria-label="Profile sections">
-        <a class="profile-nav-link" href="/research/" aria-current={isResearch ? "page" : undefined}>Research</a>
-        {isResearch ? (
-          sections.map(({ id, label }) => <a class="profile-nav-link" href={`/#${id}`}>{label}</a>)
-        ) : (
-          <div class="profile-tabs" role="tablist" aria-label="More profile sections">
-            {sections.map(({ id, label }, index) => (
-              <button id={`tab-${id}`} type="button" role="tab" aria-selected="false" aria-controls={id} data-tab={id} tabindex={index === 0 ? 0 : -1}>
-                {label}
-              </button>
-            ))}
-          </div>
-        )}
+        <div class="profile-tabs" role="tablist" aria-label="Profile sections">
+          {sections.map(({ id, label, href }, index) => (
+            <a id={`tab-${id}`} href={href} role="tab" aria-controls={id} aria-selected={isResearch && id === "research"} data-tab={id} tabindex={index === 0 ? 0 : -1}>
+              {label}
+            </a>
+          ))}
+        </div>
       </nav>
     </header>
 
