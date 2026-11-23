@@ -1,9 +1,9 @@
 ---
 const quantiles = [2.5, 25, 50, 75, 97.5];
 const historyLength = 15;
-const returnLimit = 4;
+const returnLimit = 8;
 const chart = { left: 42, right: 388, top: 10, bottom: 127 };
-const xTicks = [-4, -2, 0, 2, 4];
+const xTicks = [-returnLimit, -returnLimit / 2, 0, returnLimit / 2, returnLimit];
 const yTicks = [0, 25, 50, 75, 100];
 ---
 
@@ -12,7 +12,7 @@ const yTicks = [0, 25, 50, 75, 100];
     <h3>Can you beat the forecast?</h3>
     <span id="dax-round"></span>
   </div>
-  <p class="figure-intro">Forecast the DAX return for the next trading day.</p>
+  <p class="figure-intro" id="dax-question">What do you think the DAX return was?</p>
   <svg
     id="dax-distribution"
     class="dax-distribution"
@@ -44,6 +44,8 @@ const yTicks = [0, 25, 50, 75, 100];
     <span><i class="dax-player"></i> Your forecast</span>
     <span id="dax-outcome-key" hidden><i class="dax-outcome"></i> Observed return</span>
   </div>
+
+  <p class="dax-benchmark-note">The benchmark estimates the five quantiles from the 1,000 daily returns before this date.</p>
 
   <p class="dax-history-label">Last {historyLength} trading days <span id="dax-history-scale"></span></p>
   <svg id="dax-history" class="dax-history" viewBox="0 0 400 48" role="img" aria-label="Recent DAX returns">
@@ -87,7 +89,8 @@ const yTicks = [0, 25, 50, 75, 100];
 
   <p class="figure-note">
     Historical DAX closes from <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/EuStockMarkets.html">R's EuStockMarkets data</a>
-    (1991–1998, supplied by Erste Bank AG). The benchmark uses the preceding 1,000 daily returns.
+    (1991–1998, supplied by Erste Bank AG), with dates checked against the
+    <a href="https://search.r-project.org/CRAN/refmans/smoots/html/dax.html">smoots DAX series</a>.
     The curves interpolate the five quantiles. Lower scores are better.
   </p>
 </div>
@@ -154,6 +157,12 @@ const yTicks = [0, 25, 50, 75, 100];
   .dax-legend .dax-player { border-top: 2px solid #365f4e; }
   .dax-legend .dax-benchmark { border-top: 2px dashed #767c78; }
   .dax-legend .dax-outcome { border-top: 2px solid #976139; }
+
+  .dax-benchmark-note {
+    margin: 6px 0 0;
+    color: var(--muted);
+    font-size: 12px;
+  }
 
   .dax-history-label {
     display: flex;

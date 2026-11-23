@@ -2,6 +2,7 @@ import rounds from "./data/dax-rounds.json";
 
 const roundCount = 5;
 const roundLabel = document.querySelector("#dax-round");
+const question = document.querySelector("#dax-question");
 const distribution = document.querySelector("#dax-distribution");
 const playerCurve = document.querySelector("#dax-player-curve");
 const benchmarkCurve = document.querySelector("#dax-benchmark-curve");
@@ -24,6 +25,7 @@ const benchmarkScore = document.querySelector("#dax-benchmark-score");
 const sessionScore = document.querySelector("#dax-session-score");
 const heading = form.closest(".forecast-game").querySelector(".figure-heading");
 
+const dateFormat = new Intl.DateTimeFormat("en-GB", { dateStyle: "full", timeZone: "UTC" });
 const probabilities = sliders.map((slider) => Number(slider.dataset.probability));
 const { left, right, top, bottom } = JSON.parse(distribution.dataset.plot);
 const minimum = Number(sliders[0].min);
@@ -80,6 +82,7 @@ function drawHistory(recentReturns) {
 function startRound() {
   const round = selectedRounds[roundIndex];
   roundLabel.textContent = "Round " + (roundIndex + 1) + " of " + roundCount;
+  question.textContent = `What do you think the DAX return was on ${dateFormat.format(new Date(round.date))}?`;
   sliders.forEach((slider, index) => {
     slider.value = round.benchmark[index];
   });
@@ -130,7 +133,7 @@ form.addEventListener("submit", (event) => {
   event.preventDefault();
   if (fieldset.disabled) return;
 
-  const { benchmark, realized } = selectedRounds[roundIndex];
+  const { date, benchmark, realized } = selectedRounds[roundIndex];
   const forecast = readForecast();
   const score = meanQuantileScore(forecast, realized);
   const referenceScore = meanQuantileScore(benchmark, realized);
@@ -157,8 +160,9 @@ form.addEventListener("submit", (event) => {
     resultHeading.textContent = score < referenceScore ? "You beat the benchmark" : "The benchmark won this round";
   }
   const insideRange = realized >= forecast[0] && realized <= forecast[forecast.length - 1];
-  resultOutcome.textContent = "The DAX returned " + formatPercent(realized) + ", " +
-    (insideRange ? "inside" : "outside") + " your 95% interval.";
+  const returnDate = dateFormat.format(new Date(date));
+  const coverage = insideRange ? "inside" : "outside";
+  resultOutcome.textContent = `The DAX returned ${formatPercent(realized)} on ${returnDate}, ${coverage} your 95% interval.`;
 
   const isLastRound = roundIndex === roundCount - 1;
   next.textContent = isLastRound ? "Play again" : "Next round";
