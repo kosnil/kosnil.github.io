@@ -1,16 +1,242 @@
-<div class="interactive-figure">
+---
+const quantiles = [2.5, 25, 50, 75, 97.5];
+const historyLength = 15;
+const returnLimit = 4;
+const chart = { left: 42, right: 388, top: 10, bottom: 127 };
+const xTicks = [-4, -2, 0, 2, 4];
+const yTicks = [0, 25, 50, 75, 100];
+---
+
+<div class="interactive-figure forecast-game">
   <div class="figure-heading">
-    <span>Illustrative quantile forecast</span>
-    <span>Outcome revealed later</span>
+    <h3>Can you beat the forecast?</h3>
+    <span id="dax-round"></span>
   </div>
-  <div class="forecast-axis" aria-label="Illustrative predictive intervals and outcome">
-    <div class="interval interval-95"></div>
-    <div class="interval interval-50"></div>
-    <div class="median-mark"><span>median</span></div>
-    <div class="outcome-mark" id="forecast-outcome-mark"><span>outcome</span></div>
+  <p class="figure-intro">Forecast the DAX return for the next trading day.</p>
+  <svg
+    id="dax-distribution"
+    class="dax-distribution"
+    viewBox="0 0 400 169"
+    role="img"
+    aria-label="Benchmark and your forecast as cumulative probabilities"
+    data-plot={JSON.stringify(chart)}
+  >
+    {yTicks.map((tick) => {
+      const y = chart.bottom - tick / 100 * (chart.bottom - chart.top);
+      return (
+        <g>
+          <line x1={chart.left} x2={chart.right} y1={y} y2={y} class="dax-grid" />
+          <text x={chart.left - 6} y={y + 4} text-anchor="end">{tick}%</text>
+        </g>
+      );
+    })}
+    {xTicks.map((tick) => {
+      const x = chart.left + (tick + returnLimit) / (2 * returnLimit) * (chart.right - chart.left);
+      return <text x={x} y={chart.bottom + 15} text-anchor="middle">{tick}%</text>;
+    })}
+    <text x={(chart.left + chart.right) / 2} y="161" text-anchor="middle">Daily DAX return</text>
+    <line id="dax-outcome-line" y1={chart.top} y2={chart.bottom} class="dax-outcome" visibility="hidden" />
+    <polyline id="dax-player-curve" class="dax-player" />
+    <polyline id="dax-benchmark-curve" class="dax-benchmark" />
+  </svg>
+  <div class="dax-legend">
+    <span><i class="dax-benchmark"></i> Benchmark</span>
+    <span><i class="dax-player"></i> Your forecast</span>
+    <span id="dax-outcome-key" hidden><i class="dax-outcome"></i> Observed return</span>
   </div>
-  <label class="range-label" for="forecast-outcome">Observed outcome <output id="forecast-outcome-output">62</output></label>
-  <input id="forecast-outcome" type="range" min="0" max="100" value="62" />
-  <p class="forecast-status" id="forecast-status"></p>
-  <p class="figure-note">A probabilistic forecast is submitted before the outcome is known. Its quality depends on both calibration and concentration, not only on whether one interval contains the observation.</p>
+
+  <p class="dax-history-label">Last {historyLength} trading days <span id="dax-history-scale"></span></p>
+  <svg id="dax-history" class="dax-history" viewBox="0 0 400 48" role="img" aria-label="Recent DAX returns">
+    <line x1="0" x2="400" y1="24" y2="24" class="dax-grid" />
+    {Array.from({ length: historyLength }, (_, index) => (
+      <rect x={4 + index * (400 / historyLength)} y="24" width="18" height="0" />
+    ))}
+  </svg>
+
+  <form id="dax-forecast-form">
+    <fieldset id="dax-inputs">
+      <legend>Your forecast quantiles</legend>
+      {quantiles.map((level, index) => (
+        <div class="dax-control">
+          <label for={'dax-quantile-' + index}>{level}%{level === 50 && <span> median</span>}</label>
+          <input
+            id={'dax-quantile-' + index}
+            type="range"
+            min={-returnLimit}
+            max={returnLimit}
+            step="0.01"
+            data-probability={level / 100}
+          />
+          <output for={'dax-quantile-' + index}></output>
+        </div>
+      ))}
+    </fieldset>
+    <button class="dax-button" id="dax-submit" type="submit">Submit forecast</button>
+  </form>
+
+  <div class="dax-result" id="dax-result" hidden>
+    <h4 id="dax-result-heading" tabindex="-1"></h4>
+    <p id="dax-result-outcome"></p>
+    <dl class="dax-scores">
+      <div><dt>Your score</dt><dd id="dax-player-score"></dd></div>
+      <div><dt>Benchmark score</dt><dd id="dax-benchmark-score"></dd></div>
+    </dl>
+    <p id="dax-session-score" hidden></p>
+    <button class="dax-button" id="dax-next" type="button">Next round</button>
+  </div>
+
+  <p class="figure-note">
+    Historical DAX closes from <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/EuStockMarkets.html">R's EuStockMarkets data</a>
+    (1991–1998, supplied by Erste Bank AG). The benchmark uses the preceding 1,000 daily returns.
+    The curves interpolate the five quantiles. Lower scores are better.
+  </p>
 </div>
+
+<script src="../../forecast-game.js"></script>
+
+<style>
+  .forecast-game .figure-heading {
+    align-items: baseline;
+    gap: 6px 16px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+
+  .figure-heading h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .dax-distribution,
+  .dax-history {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .dax-distribution text {
+    fill: var(--muted);
+    font-size: 12px;
+  }
+
+  .dax-grid,
+  .dax-outcome,
+  .dax-player,
+  .dax-benchmark {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .dax-grid { stroke: var(--line); }
+  .dax-outcome { stroke: #976139; stroke-width: 1.5; }
+  .dax-player { stroke: #365f4e; stroke-width: 2.5; }
+  .dax-benchmark { stroke: #767c78; stroke-width: 1.5; stroke-dasharray: 5 3; }
+
+  .dax-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .dax-legend i {
+    display: inline-block;
+    width: 14px;
+    margin-right: 3px;
+    vertical-align: middle;
+  }
+
+  .dax-legend .dax-player { border-top: 2px solid #365f4e; }
+  .dax-legend .dax-benchmark { border-top: 2px dashed #767c78; }
+  .dax-legend .dax-outcome { border-top: 2px solid #976139; }
+
+  .dax-history-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 22px 0 4px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .dax-history rect { fill: #6b8b7b; }
+  .dax-history rect[data-negative] { fill: #b5846e; }
+
+  #dax-inputs {
+    min-width: 0;
+    padding: 0;
+    margin: 15px 0 0;
+    border: 0;
+  }
+
+  #dax-inputs legend {
+    padding: 0;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .dax-control {
+    display: grid;
+    grid-template-columns: 5.4rem minmax(0, 1fr) 4.1rem;
+    align-items: center;
+    gap: 9px;
+    min-height: 36px;
+    font-size: 13px;
+  }
+
+  .dax-control input[type="range"] {
+    height: 32px;
+    min-width: 0;
+    margin: 0;
+    accent-color: #365f4e;
+  }
+
+  .dax-control output { text-align: right; font-variant-numeric: tabular-nums; }
+  .dax-control label span { color: var(--muted); }
+
+  .dax-button {
+    min-height: 42px;
+    margin-top: 12px;
+    padding: 8px 14px;
+    border: 1px solid #365f4e;
+    border-radius: 3px;
+    background: #365f4e;
+    color: white;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .dax-button:hover { background: #284c3e; }
+
+  .dax-result {
+    margin-top: 14px;
+    padding: 12px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .dax-result h4 { margin: 0; font-size: 16px; font-weight: 500; }
+  .dax-result p { margin: 5px 0; font-size: 13px; }
+
+  .dax-scores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0;
+    font-size: 13px;
+  }
+
+  .dax-scores dt { color: var(--muted); }
+  .dax-scores dd { margin: 0; font-size: 16px; font-variant-numeric: tabular-nums; }
+
+  @media (max-width: 420px) {
+    .dax-control { grid-template-columns: 4.6rem minmax(0, 1fr) 3.7rem; }
+    .dax-control label span { display: none; }
+  }
+</style>

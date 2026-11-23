@@ -734,52 +734,6 @@ input[type="range"] {
 .thesis-map span { color: var(--muted); font-size: 11px; }
 .thesis-map strong { font-size: 13px; font-weight: 400; }
 
-.forecast-axis {
-  position: relative;
-  height: 76px;
-  margin: 12px 0 22px;
-  border-bottom: 1px solid var(--line);
-}
-
-.interval {
-  position: absolute;
-  top: 34px;
-  height: 8px;
-  background: #d9ddd9;
-}
-
-.interval-95 { left: 10%; width: 80%; }
-.interval-50 { left: 30%; width: 36%; background: #7e8882; }
-
-.median-mark,
-.outcome-mark {
-  position: absolute;
-  top: 18px;
-  bottom: 0;
-  width: 1px;
-  background: var(--text);
-}
-
-.median-mark { left: 48%; }
-.outcome-mark { left: 62%; background: #846552; }
-
-.median-mark span,
-.outcome-mark span {
-  position: absolute;
-  top: -17px;
-  left: 5px;
-  color: var(--muted);
-  font-size: 10px;
-  white-space: nowrap;
-}
-
-.forecast-status {
-  min-height: 24px;
-  margin: 14px 0 0;
-  color: #4f514c;
-  font-size: 12px;
-}
-
 .network-shell {
   margin-top: 30px;
   padding-top: 18px;

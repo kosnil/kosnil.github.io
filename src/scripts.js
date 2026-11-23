@@ -287,23 +287,6 @@ function updateRfFigure() {
 rfSlider.addEventListener("input", updateRfFigure);
 updateRfFigure();
 
-const outcomeSlider = document.querySelector("#forecast-outcome");
-const outcomeMark = document.querySelector("#forecast-outcome-mark");
-
-function updateForecastFigure() {
-  const outcome = Number(outcomeSlider.value);
-  outcomeMark.style.left = `${outcome}%`;
-  document.querySelector("#forecast-outcome-output").value = outcome;
-
-  let status = "The outcome falls inside the central 50% interval.";
-  if (outcome < 30 || outcome > 66) status = "The outcome is outside the central 50%, but inside the 95% interval.";
-  if (outcome < 10 || outcome > 90) status = "The outcome falls outside the 95% interval.";
-  document.querySelector("#forecast-status").textContent = status;
-}
-
-outcomeSlider.addEventListener("input", updateForecastFigure);
-updateForecastFigure();
-
 const maskSlider = document.querySelector("#mask-progress");
 const maskNetwork = document.querySelector("#mask-network");
 const networkLayerSpecs = [
