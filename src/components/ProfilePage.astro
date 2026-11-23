@@ -97,13 +97,15 @@ if (!cv) {
                 <span class="publication-meta">{paperMeta(paper)}</span>
               </a>
               <div class="publication-actions">
+                {interactiveDemos.has(paper.data.visualization) && (
+                  <div class="publication-demo">
+                    <button type="button" data-open-paper={paper.id} data-open-demo aria-label={`Try the demo for ${paper.data.title}`}>[try the demo]</button>
+                  </div>
+                )}
                 {paperLinks(paper).map((link) => (
                   <a href={link.url} target="_blank" rel="noreferrer">[{link.label.toLowerCase()}]</a>
                 ))}
                 <button type="button" data-open-paper={paper.id}>[learn more]</button>
-                {interactiveDemos.has(paper.data.visualization) && (
-                  <button type="button" data-open-paper={paper.id} data-open-demo aria-label={`Try the demo for ${paper.data.title}`}>[try the demo]</button>
-                )}
               </div>
             </div>
           ))}

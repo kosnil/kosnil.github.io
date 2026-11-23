@@ -311,6 +311,12 @@ nav [role="tab"][aria-selected="true"] {
   min-width: 0;
 }
 
+.publication-demo {
+  display: flex;
+  flex-basis: 100%;
+  justify-content: inherit;
+}
+
 .publication-actions a,
 .publication-actions button {
   max-width: 100%;
