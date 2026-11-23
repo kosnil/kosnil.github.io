@@ -1,10 +1,14 @@
 ---
+import daxRounds from "../../data/dax-rounds.json";
+
 const quantiles = [2.5, 25, 50, 75, 97.5];
 const historyLength = 15;
 const returnLimit = 8;
 const chart = { left: 42, right: 388, top: 10, bottom: 127 };
 const xTicks = [-returnLimit, -returnLimit / 2, 0, returnLimit / 2, returnLimit];
 const yTicks = [0, 25, 50, 75, 100];
+const lastReplayDate = daxRounds[daxRounds.length - 1].date;
+const archiveDateFormat = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 ---
 
 <div class="interactive-figure forecast-game">
@@ -83,6 +87,11 @@ const yTicks = [0, 25, 50, 75, 100];
       <div><dt>Your score</dt><dd id="dax-player-score"></dd></div>
       <div><dt>Benchmark score</dt><dd id="dax-benchmark-score"></dd></div>
     </dl>
+    <p>
+      <strong>Mean quantile score.</strong> Each of the five quantiles gets a penalty for how far it is from the observed return.
+      The penalty weights over- and underestimates differently depending on the quantile. We average the five penalties.
+      Lower is better.
+    </p>
     <p id="dax-session-score" hidden></p>
     <button class="dax-button" id="dax-next" type="button">Next round</button>
   </div>
@@ -91,7 +100,9 @@ const yTicks = [0, 25, 50, 75, 100];
     Historical DAX closes from <a href="https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/EuStockMarkets.html">R's EuStockMarkets data</a>
     (1991–1998, supplied by Erste Bank AG), with dates checked against the
     <a href="https://search.r-project.org/CRAN/refmans/smoots/html/dax.html">smoots DAX series</a>.
-    The curves interpolate the five quantiles. Lower scores are better.
+    The replay covers the last {daxRounds.length} trading days in the archive, ending on
+    <time datetime={lastReplayDate}>{archiveDateFormat.format(new Date(lastReplayDate))}</time>.
+    The curves interpolate the five quantiles.
   </p>
 </div>
 

@@ -103,7 +103,7 @@ function startGame() {
   selectedRounds = Array.from({ length: roundCount }, () => {
     const index = Math.floor(Math.random() * remaining.length);
     return remaining.splice(index, 1)[0];
-  });
+  }).sort((first, second) => first.date.localeCompare(second.date));
   roundIndex = 0;
   playerTotal = 0;
   benchmarkTotal = 0;
