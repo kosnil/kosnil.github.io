@@ -2,6 +2,8 @@ const tabRegion = document.querySelector(".tab-region");
 const tabs = [...document.querySelectorAll("[data-tab]")];
 const panels = [...tabRegion.querySelectorAll("[role='tabpanel']")];
 const tabNames = new Set(tabs.map((tab) => tab.dataset.tab));
+const header = document.querySelector("body > header");
+const mobileLayout = window.matchMedia("(max-width: 720px)");
 const researchPath = document.querySelector("#tab-research").pathname;
 const scroller = document.scrollingElement;
 const scrollFloor = "--tab-scroll-floor";
@@ -39,13 +41,18 @@ function releaseScrollFloor() {
 }
 
 function selectTab(tab) {
-  if (tab.dataset.tab === activeTab) return;
-  const height = minHeightToKeepScroll();
-  if (height) tabRegion.style.setProperty(scrollFloor, `${height}px`);
-  showTab(tab.dataset.tab);
-  // Updating history this way does not follow the link or scroll to its fragment.
-  window.history.pushState(null, "", tab.getAttribute("href"));
-  releaseScrollFloor();
+  if (tab.dataset.tab !== activeTab) {
+    const height = minHeightToKeepScroll();
+    if (height) tabRegion.style.setProperty(scrollFloor, `${height}px`);
+    showTab(tab.dataset.tab);
+    window.history.pushState(null, "", tab.getAttribute("href"));
+    releaseScrollFloor();
+  }
+
+  if (mobileLayout.matches) {
+    const panelTop = tabRegion.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: panelTop - header.getBoundingClientRect().height });
+  }
 }
 
 tabs.forEach((tab, index) => {
