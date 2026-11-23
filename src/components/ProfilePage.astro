@@ -41,6 +41,8 @@ function paperLinks(paper: (typeof papers)[number]) {
   });
 }
 
+const interactiveDemos = new Set(["random-forest", "forecast", "supermask"]);
+
 const cvEntries = await getCollection("cv");
 const cv = cvEntries[0];
 const teaching = (await getCollection("teaching"))[0];
@@ -99,6 +101,9 @@ if (!cv) {
                   <a href={link.url} target="_blank" rel="noreferrer">[{link.label.toLowerCase()}]</a>
                 ))}
                 <button type="button" data-open-paper={paper.id}>[learn more]</button>
+                {interactiveDemos.has(paper.data.visualization) && (
+                  <button type="button" data-open-paper={paper.id} data-open-demo aria-label={`Try the demo for ${paper.data.title}`}>[try the demo]</button>
+                )}
               </div>
             </div>
           ))}

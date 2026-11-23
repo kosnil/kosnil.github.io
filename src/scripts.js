@@ -1,35 +1,55 @@
 const panel = document.querySelector(".paper-panel");
+const panelScroll = panel.querySelector(".panel-scroll");
+const closeButton = panel.querySelector(".panel-close");
 const backdrop = document.querySelector(".panel-backdrop");
 const details = [...document.querySelectorAll("[data-paper-detail]")];
 const openButtons = [...document.querySelectorAll("[data-open-paper]")];
 const closeButtons = [...document.querySelectorAll("[data-close-panel]")];
 let lastTrigger = null;
+let hideTimer;
 
 function openPanel(paperId, trigger) {
+  window.clearTimeout(hideTimer);
+  const selectedPaper = details.find((detail) => detail.dataset.paperDetail === paperId);
+  const demoHeading = trigger.hasAttribute("data-open-demo")
+    ? selectedPaper.querySelector(".interactive-figure .figure-heading")
+    : null;
   details.forEach((detail) => {
-    detail.hidden = detail.dataset.paperDetail !== paperId;
+    detail.hidden = detail !== selectedPaper;
   });
   lastTrigger = trigger;
   backdrop.hidden = false;
   document.body.classList.add("panel-open");
   panel.setAttribute("aria-hidden", "false");
   requestAnimationFrame(() => {
+    if (lastTrigger !== trigger) return;
     panel.classList.add("is-open");
     backdrop.classList.add("is-open");
-    panel.querySelector(".panel-close").focus();
+    if (demoHeading) {
+      const offset = demoHeading.getBoundingClientRect().top - panelScroll.getBoundingClientRect().top;
+      const padding = parseFloat(getComputedStyle(panelScroll).paddingTop);
+      panelScroll.scrollTop += offset - padding;
+      demoHeading.tabIndex = -1;
+      demoHeading.focus({ preventScroll: true });
+    } else {
+      panelScroll.scrollTop = 0;
+      closeButton.focus({ preventScroll: true });
+    }
   });
 }
 
 function closePanel() {
+  if (!lastTrigger) return;
   panel.classList.remove("is-open");
   backdrop.classList.remove("is-open");
   panel.setAttribute("aria-hidden", "true");
   document.body.classList.remove("panel-open");
-  window.setTimeout(() => {
+  hideTimer = window.setTimeout(() => {
     backdrop.hidden = true;
     details.forEach((detail) => { detail.hidden = true; });
   }, 250);
-  if (lastTrigger) lastTrigger.focus();
+  lastTrigger.focus();
+  lastTrigger = null;
 }
 
 openButtons.forEach((button) => {

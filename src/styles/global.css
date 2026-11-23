@@ -358,12 +358,13 @@ nav [role="tab"][aria-selected="true"] {
   box-shadow: -16px 0 45px rgba(32, 33, 31, 0.08);
   transform: translateX(100%);
   visibility: hidden;
-  transition: transform 240ms ease, visibility 240ms;
+  transition: transform 240ms ease, visibility 0s 240ms;
 }
 
 .paper-panel.is-open {
   transform: translateX(0);
   visibility: visible;
+  transition-delay: 0s;
 }
 
 .panel-header {
