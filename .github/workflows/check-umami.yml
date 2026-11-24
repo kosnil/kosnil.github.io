@@ -16,7 +16,7 @@ jobs:
           SITE_URL: https://nilskoster.com/
         run: |
           npm install --no-audit --no-fund --prefix "$RUNNER_TEMP/umami-check" playwright
-          node <<'JS'
+          xvfb-run -a node <<'JS'
           const path = require("node:path");
           const { chromium } = require(path.join(process.env.RUNNER_TEMP, "umami-check/node_modules/playwright"));
           const log = (...fields) => console.log("UMAMI CHECK", ...fields);
@@ -24,7 +24,7 @@ jobs:
           const endpoint = (url) => new URL(url).origin + new URL(url).pathname;
 
           async function check() {
-            const browser = await chromium.launch({ channel: "chrome", headless: true });
+            const browser = await chromium.launch({ channel: "chrome", headless: false });
             try {
               const page = await browser.newPage();
               const collectorResponses = [];
@@ -58,7 +58,10 @@ jobs:
               log("Website:", page.url(), documentResponse?.status());
               const tag = page.locator("script[data-website-id]");
               log("Tracking tags:", await tag.count());
-              if (await tag.count() === 1) log("Tracker source:", await tag.getAttribute("src"));
+              if (await tag.count() === 1) {
+                log("Tracker source:", await tag.getAttribute("src"));
+                log("Website ID matches:", await tag.getAttribute("data-website-id") === "893ca80d-f9e9-4109-9162-9be09d838407");
+              }
               const waitForPost = () => page.waitForResponse(response => {
                 return isUmami(response.url()) && response.request().method() === "POST";
               }, { timeout: 6000 }).catch(() => null);
