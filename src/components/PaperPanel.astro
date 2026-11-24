@@ -28,7 +28,7 @@ const renderedPapers = await Promise.all(
   <div class="panel-scroll">
     {renderedPapers.map(({ paper, Content }) => (
       <div class="paper-detail" data-paper-detail={paper.id} hidden>
-        <p class="panel-meta">{paper.data.panelVenue ?? paper.data.venue} · {paper.data.year}</p>
+        <p class="panel-meta">{paper.data.panelVenue ?? paper.data.venue}, {paper.data.year}</p>
         <h2>{paper.data.title}</h2>
         <p class="abstract-label">{paper.data.abstractLabel}</p>
         <div class="paper-abstract"><Content /></div>

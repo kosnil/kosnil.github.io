@@ -91,10 +91,16 @@ nav [role="tab"][aria-selected="true"] {
 }
 
 .kicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
   margin: 0 0 48px;
+  padding: 0;
+  list-style: none;
   color: var(--muted);
   font-size: 12px;
   letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .intro-lower {
@@ -235,6 +241,14 @@ nav [role="tab"][aria-selected="true"] {
   line-height: 1.45;
 }
 
+.cv-title-note {
+  display: inline-block;
+  margin-inline-start: 0.35em;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+
 .cv-entry p,
 .cv-notes p {
   margin: 2px 0 0;
@@ -301,6 +315,8 @@ nav [role="tab"][aria-selected="true"] {
   color: var(--muted);
   font-size: 13px;
 }
+
+.publication-meta > span { display: block; }
 
 .publication-actions {
   display: flex;

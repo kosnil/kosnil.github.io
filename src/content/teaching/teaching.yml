@@ -1,22 +1,22 @@
 intro: Selected teaching contributions at Karlsruhe Institute of Technology, taught with colleagues. I also supervise bachelor's and master's theses.
 courses:
   - title: Statistics I
-    period: Summer 25 – current
+    period: Summer 2025–present
     role: Overall coordination
     url: https://glstat.wiwi.kit.edu/
   - title: Statistics II
-    period: Winter 25/26 – current
+    period: Winter 2025/26–present
     role: Overall coordination
     url: https://glstat.wiwi.kit.edu/
   - title: Advanced Topics in Econometrics
     period: Summer 2025
-    role: Seminar · co-instructor
+    role: Co-taught seminar
     url: https://methods.stat.kit.edu/3302.php
   - title: Probabilistic Time Series Forecasting Challenge
-    period: Winter 21/22–24/25, 26/27
-    role: Practical course · co-instructor
+    period: Winter 2021/22–2024/25, 2026/27
+    role: Co-taught practical course
     url: https://methods.stat.kit.edu/3282.php
   - title: Predictive Modeling
     period: Summer 2021–2024
-    role: Tutorials · co-instructor
+    role: Co-taught tutorials
     url: https://methods.stat.kit.edu/3145_3153.php

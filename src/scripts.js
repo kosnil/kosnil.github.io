@@ -244,7 +244,7 @@ function renderSupportPlot(retained, retainedMass) {
   rfSupport.append(
     svgElement("line", { x1: queryX - 7, x2: queryX + 7, y1: queryY, y2: queryY, class: "query-mark" }),
     svgElement("line", { x1: queryX, x2: queryX, y1: queryY - 7, y2: queryY + 7, class: "query-mark" }),
-    svgElement("text", { x: queryX + 9, y: queryY - 8, class: "axis-label" }, "new case · bias +1.1°")
+    svgElement("text", { x: queryX + 9, y: queryY - 8, class: "axis-label" }, "new case (bias +1.1°)")
   );
 
   updateSupportDetail(retained[0], retainedMass);
@@ -343,12 +343,12 @@ networkLayers[networkLayers.length - 1].nodes.forEach((_, targetIndex) => {
 });
 
 function maskStageName(progress) {
-  if (progress === 0) return "initialization";
-  if (progress < 25) return "sign search";
-  if (progress < 55) return "mask formation";
-  if (progress < 85) return "pruning";
-  if (progress < 100) return "refinement";
-  return "final mask";
+  if (progress === 0) return "Initialization";
+  if (progress < 25) return "Sign search";
+  if (progress < 55) return "Mask formation";
+  if (progress < 85) return "Pruning";
+  if (progress < 100) return "Refinement";
+  return "Final mask";
 }
 
 function maskStateForEdge(edge, index, progress) {
@@ -387,7 +387,7 @@ function updateMaskConnectionDetail(state, edge) {
     <span>Connection<strong>${edge.source.label} → ${edge.target.label}</strong></span>
     <span>Fixed magnitude<strong>${magnitude}</strong></span>
     <span>Learned mask<strong>${mask}</strong></span>
-    <span>Effective weight<strong>${effective} · ${action}</strong></span>
+    <span>Effective weight<strong>${effective} (${action})</strong></span>
   `;
 }
 
@@ -406,7 +406,7 @@ function renderMaskNetwork(states) {
       y2: edge.target.y,
       class: `mask-edge is-${state}`
     });
-    line.append(svgElement("title", {}, `${edge.source.label} → ${edge.target.label} · |w| = ${edge.magnitude.toFixed(2)} · ${state}`));
+    line.append(svgElement("title", {}, `${edge.source.label} → ${edge.target.label}, |w| = ${edge.magnitude.toFixed(2)} (${state})`));
     line.addEventListener("mouseenter", () => updateMaskConnectionDetail(state, edge));
     maskNetwork.append(line);
   });
@@ -423,7 +423,7 @@ function updateMaskFigure() {
   const progress = Number(maskSlider.value);
   const states = networkEdges.map((edge, index) => maskStateForEdge(edge, index, progress));
   const activeCount = states.filter((state) => state !== "zero").length;
-  document.querySelector("#mask-progress-output").value = `${progress}% · ${maskStageName(progress)}`;
+  document.querySelector("#mask-progress-output").value = `${maskStageName(progress)} (${progress}%)`;
   document.querySelector("#mask-active-output").textContent = progress === 0 ? `${networkEdges.length} candidates` : `${activeCount} of ${networkEdges.length}`;
   renderMaskNetwork(states);
   updateMaskConnectionDetail(states[0], networkEdges[0]);

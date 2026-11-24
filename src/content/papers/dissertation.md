@@ -3,7 +3,6 @@ title: Simplifying Machine Learning Models
 year: 2025
 status: dissertation
 venue: Doctoral dissertation (summa cum laude), KIT
-panelVenue: Doctoral dissertation (summa cum laude) · KIT
 authors: []
 paperUrl: https://publikationen.bibliothek.kit.edu/1000180148
 links:

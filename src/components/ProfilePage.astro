@@ -23,11 +23,6 @@ function joinAuthors(authors: string[]) {
   return `${authors.slice(0, -1).join(", ")} and ${authors.at(-1)}`;
 }
 
-function paperMeta(paper: (typeof papers)[number]) {
-  const authors = paper.data.authors;
-  return `${paper.data.venue}, ${paper.data.year}${authors.length ? ` · with ${joinAuthors(authors)}` : ""}`;
-}
-
 function paperLinks(paper: (typeof papers)[number]) {
   const { links, codeUrl, paperUrl } = paper.data;
   const candidates = codeUrl ? [...links, { label: "Code", url: codeUrl }] : links;
@@ -56,12 +51,16 @@ if (!cv) {
 
 <ProfileLayout isResearch={isResearch}>
   <section class="intro" aria-label="About Nils Koster">
-    <p class="kicker">APPLIED STATISTICS · MACHINE LEARNING · PROBABILISTIC FORECASTING</p>
+    <ul class="kicker" aria-label="Research interests">
+      <li>Applied statistics</li>
+      <li>Machine learning</li>
+      <li>Probabilistic forecasting</li>
+    </ul>
     <div class="intro-lower">
       <img class="portrait" src="/assets/nils-koster.webp" alt="Portrait of Nils Koster" width="720" height="900" />
       <div class="intro-details">
         <p>
-          I am an Akademischer Rat at the Karlsruhe Institute of Technology. My research sits between statistics and machine learning, with an emphasis on probabilistic forecasts that remain useful and understandable when data are limited or conditions change.
+          I am a researcher and lecturer at Karlsruhe Institute of Technology (KIT). I study how to build and evaluate probabilistic forecasts, with recent work on random forests and scoring rules.
         </p>
         <p class="links">
           <a href="mailto:nils.koster@kit.edu">Email</a>
@@ -94,7 +93,10 @@ if (!cv) {
             <div class="publication">
               <a class="publication-paper" href={paper.data.paperUrl} target="_blank" rel="noreferrer">
                 <span class="publication-title">{paper.data.title}</span>
-                <span class="publication-meta">{paperMeta(paper)}</span>
+                <span class="publication-meta">
+                  <span>{paper.data.venue}, {paper.data.year}</span>
+                  {paper.data.authors.length > 0 && <span>With {joinAuthors(paper.data.authors)}</span>}
+                </span>
               </a>
               <div class="publication-actions">
                 {interactiveDemos.has(paper.data.visualization) && (
@@ -105,7 +107,7 @@ if (!cv) {
                 {paperLinks(paper).map((link) => (
                   <a href={link.url} target="_blank" rel="noreferrer">[{link.label.toLowerCase()}]</a>
                 ))}
-                <button type="button" data-open-paper={paper.id}>[learn more]</button>
+                <button type="button" data-open-paper={paper.id} aria-label={`Details for ${paper.data.title}`}>[Details]</button>
               </div>
             </div>
           ))}
@@ -155,7 +157,10 @@ if (!cv) {
                           <div class="cv-entry">
                             <span>{entry.period}</span>
                             <div>
-                              <strong>{entry.title}</strong>
+                              <strong>
+                                {entry.title}
+                                {entry.titleNote && <span class="cv-title-note"><InlineLinks text={entry.titleNote} /></span>}
+                              </strong>
                               <p><InlineLinks text={entry.detail} /></p>
                             </div>
                           </div>
@@ -179,7 +184,7 @@ if (!cv) {
           {teaching.data.courses.map((course) => (
             <div class="teaching-course">
               <h3><a href={course.url} target="_blank" rel="noreferrer">{course.title}</a></h3>
-              <p>{course.period} · {course.role}</p>
+              <p>{course.role}, {course.period}</p>
             </div>
           ))}
         </div>

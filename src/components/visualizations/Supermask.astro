@@ -1,10 +1,10 @@
 <div class="interactive-figure">
   <div class="figure-heading">
     <span>Signed supermask training</span>
-    <span>Fixed magnitudes · learned mask</span>
+    <span>Fixed magnitudes, learned mask</span>
   </div>
   <p class="figure-intro">Each layer has one magnitude that is fixed at initialization and shared by all of its connections. Training changes only a ternary mask: <strong>+1</strong> keeps a connection, <strong>−1</strong> reverses its sign, and <strong>0</strong> removes it.</p>
-  <label class="range-label" for="mask-progress">Training progress <output id="mask-progress-output">0% · initialization</output></label>
+  <label class="range-label" for="mask-progress">Training progress <output id="mask-progress-output">Initialization (0%)</output></label>
   <input id="mask-progress" type="range" min="0" max="100" step="5" value="0" />
   <div class="figure-metrics supermask-metrics">
     <span>Retained connections <strong id="mask-active-output">138 candidates</strong></span>

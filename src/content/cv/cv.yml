@@ -11,8 +11,8 @@ groups:
   - heading: Education
     entries:
       - period: "2025"
-        title: Doctorate in Statistics
-        detail: Karlsruhe Institute of Technology · summa cum laude
+        title: Doctorate in Statistics (summa cum laude)
+        detail: Karlsruhe Institute of Technology
       - period: "2020"
         title: M.Sc. Industrial Engineering
         detail: Karlsruhe Institute of Technology
@@ -27,7 +27,7 @@ groups:
         detail: Visiting researcher, hosted by Richard Samworth
       - period: "2023"
         title: Broad Institute of MIT and Harvard
-        detail: Visiting researcher, hosted by Caroline Uhler · affiliated researcher since 2023
+        detail: Visiting researcher, hosted by Caroline Uhler. Affiliated researcher since 2023.
 
   - heading: Academic service
     sections:
@@ -38,10 +38,12 @@ groups:
         entries:
           - period: "2026"
             title: Shape-constrained learning and nonparametric statistics
-            detail: Co-organizer · with [Richard Samworth](https://www.statslab.cam.ac.uk/~rjs57/)
+            titleNote: with [Richard Samworth](https://www.statslab.cam.ac.uk/~rjs57/)
+            detail: Co-organizer
           - period: "2023"
             title: Modern kernel methods
-            detail: Co-organizer · with [Adit Radhakrishnan](https://aditradha.com/)
+            titleNote: with [Adit Radhakrishnan](https://aditradha.com/)
+            detail: Co-organizer
 
   - heading: Selected distinctions
     entries:
