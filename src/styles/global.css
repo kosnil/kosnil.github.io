@@ -86,7 +86,7 @@ nav [role="tab"][aria-selected="true"] {
 }
 
 .intro {
-  padding: 84px 0 92px;
+  padding: 64px 0 68px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -918,7 +918,7 @@ footer {
 
   .intro {
     min-height: auto;
-    padding: 62px 0 70px;
+    padding: 44px 0 48px;
   }
 
   .kicker { margin-bottom: 36px; }
