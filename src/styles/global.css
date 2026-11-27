@@ -877,11 +877,50 @@ input[type="range"] {
 
 body.panel-open { overflow: hidden; }
 
-.email {
-  display: inline-block;
+.contact-form {
+  display: grid;
+  gap: 16px;
+  max-width: 480px;
   margin-top: 24px;
-  font-size: 15px;
 }
+
+.contact-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #a6a8a1;
+  border-radius: 4px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-size: 16px;
+}
+
+.contact-form input { min-height: 44px; }
+.contact-form textarea { resize: vertical; }
+
+.contact-form button {
+  justify-self: start;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--text);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.contact-form button:hover { background: #484a46; }
+
+.contact-form p { font-size: 13px; }
 
 footer {
   min-height: 76px;

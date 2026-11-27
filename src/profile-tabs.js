@@ -40,7 +40,7 @@ function releaseScrollFloor() {
   }
 }
 
-function selectTab(tab) {
+function selectTab(tab, jumpToPanel = false) {
   if (tab.dataset.tab !== activeTab) {
     const height = minHeightToKeepScroll();
     if (height) tabRegion.style.setProperty(scrollFloor, `${height}px`);
@@ -49,18 +49,29 @@ function selectTab(tab) {
     releaseScrollFloor();
   }
 
-  if (mobileLayout.matches) {
+  if (jumpToPanel || mobileLayout.matches) {
     const panelTop = tabRegion.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top: panelTop - header.getBoundingClientRect().height });
   }
+
+  if (jumpToPanel) {
+    document.getElementById(activeTab).focus({ preventScroll: true });
+  }
 }
 
+function followTabLink(event, tab, jumpToPanel = false) {
+  if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  selectTab(tab, jumpToPanel);
+}
+
+const contactTab = document.getElementById("tab-contact");
+document.querySelector("[data-contact-link]").addEventListener("click", (event) => {
+  followTabLink(event, contactTab, true);
+});
+
 tabs.forEach((tab, index) => {
-  tab.addEventListener("click", (event) => {
-    if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    event.preventDefault();
-    selectTab(tab);
-  });
+  tab.addEventListener("click", (event) => followTabLink(event, tab));
   tab.addEventListener("keydown", (event) => {
     let nextIndex;
     if (event.key === " ") nextIndex = index;
